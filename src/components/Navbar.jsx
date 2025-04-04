@@ -5,7 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { getCart } from "../utils/cartUtils";
 import { getWishlist } from "../utils/wishlistUtils";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun } from "lucide-react"; // npm install lucide-react
 
 function Navbar() {
   const { user, isAdmin, userName } = useAuth();
@@ -59,24 +59,32 @@ function Navbar() {
 
           {user ? (
             <>
-              <Link to="/cart" className="hover:text-indigo-600 dark:hover:text-indigo-400">
+              <Link
+                to="/cart"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 🛒 Cart ({cartCount})
               </Link>
 
-              <Link to="/wishlist" className="hover:text-indigo-600 dark:hover:text-indigo-400">
+              <Link
+                to="/wishlist"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 ❤️ Wishlist ({wishlistCount})
               </Link>
 
-              <Link to="/orders" className="hover:text-indigo-600 dark:hover:text-indigo-400">
-                Orders
-              </Link>
-
-              <Link to="/dashboard" className="hover:text-indigo-600 dark:hover:text-indigo-400">
+              <Link
+                to="/dashboard"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 👤 My Profile
               </Link>
 
               {isAdmin && (
-                <Link to="/admin" className="text-red-600 hover:text-red-500 font-semibold">
+                <Link
+                  to="/admin"
+                  className="text-red-600 hover:text-red-500 font-semibold"
+                >
                   Admin
                 </Link>
               )}
@@ -94,13 +102,22 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link to="/login" className="hover:text-indigo-600 dark:hover:text-indigo-400">
+              <Link
+                to="/login"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 Login
               </Link>
-              <Link to="/register" className="hover:text-indigo-600 dark:hover:text-indigo-400">
+              <Link
+                to="/register"
+                className="hover:text-indigo-600 dark:hover:text-indigo-400"
+              >
                 Register
               </Link>
-              <Link to="/admin-login" className="text-red-500 hover:text-red-600">
+              <Link
+                to="/admin-login"
+                className="text-red-500 hover:text-red-600"
+              >
                 Admin Login
               </Link>
             </>

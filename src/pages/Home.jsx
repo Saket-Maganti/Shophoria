@@ -13,15 +13,9 @@ const categoryImages = {
   Accessories: "https://images.pexels.com/photos/19090/pexels-photo.jpg",
   Home: "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg",
   Kitchen: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
-  Furniture: "https://images.pexels.com/photos/276528/pexels-photo-276528.jpeg",
   Toys: "https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg",
   Gadgets: "https://images.pexels.com/photos/3825581/pexels-photo-3825581.jpeg",
-  Shoes: "https://images.pexels.com/photos/298863/pexels-photo-298863.jpeg",
-  Beauty: "https://images.pexels.com/photos/336372/pexels-photo-336372.jpeg",
   Sports: "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg",
-  Stationery: "https://images.pexels.com/photos/207665/pexels-photo-207665.jpeg",
-  Outdoors: "https://images.pexels.com/photos/3225517/pexels-photo-3225517.jpeg",
-  Travel: "https://images.pexels.com/photos/115655/pexels-photo-115655.jpeg"
 };
 
 function Home() {
@@ -106,7 +100,7 @@ function Home() {
         </div>
       </div>
 
-      {/* Category-specific products */}
+      {/* Category Filter */}
       {category !== "all" && (
         <div className="mb-12">
           <div className="flex justify-between items-center mb-4">
