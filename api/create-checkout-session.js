@@ -1,7 +1,6 @@
-// api/create-checkout-session.js
 import Stripe from "stripe";
 
-// Securely load the secret key from environment variables
+// Initialize Stripe with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   apiVersion: "2022-11-15",
 });
@@ -27,7 +26,7 @@ export default async function handler(req, res) {
           product_data: {
             name: item.name,
           },
-          unit_amount: Math.round(item.price * 100), // Stripe expects amount in cents
+          unit_amount: Math.round(item.price * 100), // Stripe requires amount in cents
         },
         quantity: item.quantity || 1,
       })),
@@ -38,8 +37,8 @@ export default async function handler(req, res) {
         total: total?.toString() || "0",
       },
       mode: "payment",
-      success_url: "https://marketverse.vercel.app/success",
-      cancel_url: "https://marketverse.vercel.app/cancel",
+      success_url: "https://shophoria-six.vercel.app/success",
+      cancel_url: "https://shophoria-six.vercel.app/cancel",
     });
 
     res.status(200).json({ id: session.id });
