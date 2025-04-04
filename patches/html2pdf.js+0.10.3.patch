@@ -1,0 +1,13 @@
+diff --git a/node_modules/html2pdf.js/dist/html2pdf.js b/node_modules/html2pdf.js/dist/html2pdf.js
+index c6e1107..deef8f2 100644
+--- a/node_modules/html2pdf.js/dist/html2pdf.js
++++ b/node_modules/html2pdf.js/dist/html2pdf.js
+@@ -5728,8 +5728,6 @@ return Promise$1;
+ 
+ 
+ 
+-//# sourceMappingURL=es6-promise.map
+-
+ 
+ /***/ }),
+ 

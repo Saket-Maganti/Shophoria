@@ -1,24 +1,43 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Cart from "./pages/Cart";
+import MyOrders from "./pages/MyOrders";
+import Wishlist from "./pages/Wishlist";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminLogin from "./pages/AdminLogin";
+import ProductDetails from "./pages/ProductDetails";
+import PrivateRoute from "./routes/PrivateRoute";
+import AdminRoute from "./routes/AdminRoute";
+import Checkout from "./pages/Checkout";
+import Invoice from "./pages/Invoice";
+import Seed from "./pages/Seed";
+import UserDashboard from "./pages/UserDashboard"; // ✅ NEW
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navbar />
+      <div className="p-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/cart" element={<PrivateRoute><Cart /></PrivateRoute>} />
+          <Route path="/orders" element={<PrivateRoute><MyOrders /></PrivateRoute>} />
+          <Route path="/wishlist" element={<PrivateRoute><Wishlist /></PrivateRoute>} />
+          <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
+          <Route path="/invoice/:orderId" element={<PrivateRoute><Invoice /></PrivateRoute>} />
+          <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
+          <Route path="/seed" element={<AdminRoute><Seed /></AdminRoute>} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} /> {/* ✅ NEW */}
+        </Routes>
+      </div>
+    </Router>
   );
 }
 

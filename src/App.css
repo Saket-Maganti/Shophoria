@@ -1,38 +1,57 @@
+/* General layout styles */
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb;
+  color: #1f2937;
+}
+
+/* App header branding */
+.App-header {
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
   color: white;
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border-bottom: 4px solid #4f46e5;
 }
 
+.App-header h1 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.App-header p {
+  font-size: 1.125rem;
+  opacity: 0.9;
+}
+
+/* Optional spinning logo if needed */
+.App-logo {
+  height: 80px;
+  margin-bottom: 1rem;
+  animation: App-logo-spin 12s linear infinite;
+}
+
+/* Links */
 .App-link {
-  color: #61dafb;
+  color: #4f46e5;
+  text-decoration: none;
+  font-weight: 600;
 }
 
+.App-link:hover {
+  text-decoration: underline;
+}
+
+/* Animation */
 @keyframes App-logo-spin {
-  from {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+  100% {
     transform: rotate(360deg);
   }
 }
