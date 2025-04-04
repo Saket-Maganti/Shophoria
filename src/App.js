@@ -14,7 +14,9 @@ import AdminRoute from "./routes/AdminRoute";
 import Checkout from "./pages/Checkout";
 import Invoice from "./pages/Invoice";
 import Seed from "./pages/Seed";
-import UserDashboard from "./pages/UserDashboard"; // ✅ NEW
+import UserDashboard from "./pages/UserDashboard";
+import Success from "./pages/Success"; // ✅ Added
+import Cancel from "./pages/Cancel";   // ✅ Added
 
 function App() {
   return (
@@ -34,7 +36,9 @@ function App() {
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
           <Route path="/seed" element={<AdminRoute><Seed /></AdminRoute>} />
           <Route path="/product/:id" element={<ProductDetails />} />
-          <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} /> {/* ✅ NEW */}
+          <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} />
+          <Route path="/success" element={<Success />} />   {/* ✅ Stripe Success */}
+          <Route path="/cancel" element={<Cancel />} />     {/* ✅ Stripe Cancel */}
         </Routes>
       </div>
     </Router>
