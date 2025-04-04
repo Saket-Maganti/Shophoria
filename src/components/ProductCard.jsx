@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { addToCart } from "../utils/cartUtils";
 import { addToWishlist } from "../utils/wishlistUtils";
 import { useAuth } from "../context/AuthContext";
-import { Heart, ShoppingCart } from "lucide-react"; // Optional icons for flair
+import { Heart, ShoppingCart } from "lucide-react";
 
 function ProductCard({ product }) {
   const { user } = useAuth();
@@ -28,6 +28,7 @@ function ProductCard({ product }) {
         <img
           src={product.image}
           alt={product.name}
+          loading="lazy"
           className="w-full h-48 object-cover transition-transform hover:scale-105"
         />
         <div className="p-4 space-y-1">
