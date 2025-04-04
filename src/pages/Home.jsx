@@ -3,14 +3,14 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import ProductCard from "../components/ProductCard";
 import CategoryCard from "../components/CategoryCard";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const categoryImages = {
   Electronics: "https://images.pexels.com/photos/1054386/pexels-photo-1054386.jpeg",
   Clothing: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
   Books: "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
-  Accessories: "https://images.pexels.com/photos/19090/pexels-photo.jpg",
+  Accessories: "https://images.pexels.com/photos/19090/pexels-photo-19090.jpeg",
   Home: "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg",
   Kitchen: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
   Toys: "https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg",
@@ -24,6 +24,7 @@ function Home() {
   const [category, setCategory] = useState("all");
   const [loading, setLoading] = useState(true);
   const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -43,7 +44,7 @@ function Home() {
   }, []);
 
   const allCategories = Object.keys(categoryImages);
-  const featured = products.slice(0, 10);
+  const featured = products.slice(0, 6);
   const filteredFeatured = search
     ? featured.filter(p => p.name.toLowerCase().includes(search.toLowerCase()))
     : featured;
@@ -84,12 +85,14 @@ function Home() {
       {/* Categories */}
       <div id="categories" className="mb-10">
         <h2 className="text-2xl font-bold mb-4">📁 Shop by Category</h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {allCategories.map((cat, i) => (
             <motion.div
               key={i}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
+              onClick={() => navigate(`/?category=${cat}`)}
+              className="cursor-pointer"
             >
               <CategoryCard
                 title={cat}
