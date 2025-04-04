@@ -51,14 +51,14 @@ function Invoice() {
         {/* Header */}
         <div className="flex justify-between items-start mb-6 border-b pb-4">
           <div>
-            <h2 className="text-3xl font-extrabold text-indigo-700 dark:text-indigo-400">Marketverse</h2>
+            <h2 className="text-3xl font-extrabold text-indigo-700 dark:text-indigo-400">Shophoria</h2>
             <p className="text-sm text-gray-500 dark:text-gray-400">123 Online Ave, Ecom City, NY</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">support@marketverse.com</p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">support@shophoria.com</p>
           </div>
           <div className="text-right">
             <h3 className="text-xl font-semibold text-gray-800 dark:text-white">INVOICE</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
-              Invoice #: <span className="font-mono">MV-{order.id.slice(0, 6).toUpperCase()}</span>
+              Invoice #: <span className="font-mono">SH-{order.id.slice(0, 6).toUpperCase()}</span>
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Date: {order.createdAt?.toDate().toLocaleDateString()}

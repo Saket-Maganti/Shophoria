@@ -46,6 +46,13 @@ function Cart() {
       alert("Please login to proceed to checkout.");
       return;
     }
+
+    const order = {
+      items,
+      total: parseFloat(getTotal()),
+    };
+
+    localStorage.setItem("last_order", JSON.stringify(order));
     navigate("/checkout");
   };
 
@@ -66,9 +73,7 @@ function Cart() {
                 <div className="flex-1">
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">
-                    ${item.price} × {item.quantity} = ${(
-                      item.price * item.quantity
-                    ).toFixed(2)}
+                    ${item.price} × {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
                   </p>
                   <div className="flex items-center gap-2 mt-3">
                     <button

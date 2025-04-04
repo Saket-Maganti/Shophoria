@@ -31,6 +31,10 @@ function Success() {
 
         localStorage.removeItem("marketverse_cart");
         localStorage.removeItem("last_order");
+
+        const event = new Event("cartUpdated");
+        window.dispatchEvent(event);
+
         setMessage("✅ Payment successful! Your order has been placed.");
       } catch (err) {
         console.error("Error saving order:", err);
@@ -44,13 +48,13 @@ function Success() {
   return (
     <div className="min-h-screen flex flex-col justify-center items-center px-4 text-center bg-gray-50 dark:bg-gray-900">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow p-8 border border-gray-200 dark:border-gray-700">
-        <h1 className="text-3xl font-extrabold text-green-600 mb-4">🎉 Success</h1>
+        <h1 className="text-3xl font-extrabold text-green-600 mb-4">🎉 Thank you from Shophoria!</h1>
         <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">{message}</p>
         <button
           onClick={() => navigate("/")}
           className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-2 rounded"
         >
-          Back to Home
+          🏠 Back to Home
         </button>
       </div>
     </div>
