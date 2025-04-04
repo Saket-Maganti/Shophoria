@@ -17,16 +17,6 @@ const sampleData = {
     { name: "Deep Work", price: 14.50, image: "https://images-na.ssl-images-amazon.com/images/I/81qW97ndkvL.jpg", description: "Achieve focused success in a distracted world." },
     { name: "The Alchemist", price: 12.99, image: "https://images-na.ssl-images-amazon.com/images/I/71aFt4+OTOL.jpg", description: "A magical story about following your dreams." },
   ],
-  Accessories: [
-    { name: "Leather Wallet", price: 24.99, image: "https://m.media-amazon.com/images/I/81Z3RijYzEL._AC_SL1500_.jpg", description: "Durable bifold wallet with multiple compartments." },
-    { name: "Wrist Watch", price: 89.99, image: "https://m.media-amazon.com/images/I/61OvQlTZ-3L._AC_SL1500_.jpg", description: "Elegant wrist watch with analog display." },
-    { name: "Sunglasses", price: 19.99, image: "https://m.media-amazon.com/images/I/71lFCdE0NoL._AC_SL1500_.jpg", description: "Stylish sunglasses with UV protection." },
-  ],
-  Home: [
-    { name: "Table Lamp", price: 45.00, image: "https://m.media-amazon.com/images/I/417uBhwmWjL._AC_SL1500_.jpg", description: "Modern bedside table lamp with soft ambient lighting." },
-    { name: "Decorative Pillow Set", price: 20.00, image: "https://m.media-amazon.com/images/I/81s-m1+01QL._AC_SL1500_.jpg", description: "Set of cozy throw pillows to add comfort and style to your sofa." },
-    { name: "Wall Clock", price: 29.99, image: "https://m.media-amazon.com/images/I/71gg8mPlAuL._AC_SL1500_.jpg", description: "Analog wall clock with easy-to-read numbers and silent movement." },
-  ],
   Kitchen: [
     { name: "Blender", price: 59.99, image: "https://m.media-amazon.com/images/I/417uBhwmWjL._AC_SL1500_.jpg", description: "Electric blender with multiple speeds, perfect for smoothies and sauces." },
     { name: "Coffee Maker", price: 79.99, image: "https://m.media-amazon.com/images/I/8107-P9dC0L._AC_SL1500_.jpg", description: "Automatic drip coffee maker with a built-in timer and 12-cup carafe." },
@@ -42,11 +32,6 @@ const sampleData = {
     { name: "Smart Light Bulb", price: 15.99, image: "https://m.media-amazon.com/images/I/81yduUsQD6L._AC_SL1500_.jpg", description: "Wi-Fi enabled smart LED bulb that you can control with a mobile app or voice assistant." },
     { name: "VR Headset", price: 299.99, image: "https://m.media-amazon.com/images/I/71OYLm6srFL._AC_SL1500_.jpg", description: "Virtual Reality headset that delivers an immersive gaming and entertainment experience." },
   ],
-  Sports: [
-    { name: "Basketball", price: 29.99, image: "https://m.media-amazon.com/images/I/71Be68MU3DS._AC_SL1500_.jpg", description: "Official size outdoor basketball with durable rubber cover." },
-    { name: "Soccer Ball", price: 25.00, image: "https://m.media-amazon.com/images/I/81XCeTr-zlL._AC_SL1500_.jpg", description: "Regulation size soccer ball designed for training and recreational play." },
-    { name: "Tennis Racket", price: 59.99, image: "https://m.media-amazon.com/images/I/51Am6O-pXQL._AC_SL1500_.jpg", description: "Lightweight tennis racket with comfortable grip for players of all levels." },
-  ]
 };
 
 export async function seedProducts() {

@@ -10,12 +10,9 @@ const categoryImages = {
   Electronics: "https://images.pexels.com/photos/1054386/pexels-photo-1054386.jpeg",
   Clothing: "https://images.pexels.com/photos/2983464/pexels-photo-2983464.jpeg",
   Books: "https://images.pexels.com/photos/590493/pexels-photo-590493.jpeg",
-  Accessories: "https://images.pexels.com/photos/19090/pexels-photo.jpg",
-  Home: "https://images.pexels.com/photos/271618/pexels-photo-271618.jpeg",
   Kitchen: "https://images.pexels.com/photos/276583/pexels-photo-276583.jpeg",
   Toys: "https://images.pexels.com/photos/3662667/pexels-photo-3662667.jpeg",
   Gadgets: "https://images.pexels.com/photos/3825581/pexels-photo-3825581.jpeg",
-  Sports: "https://images.pexels.com/photos/841130/pexels-photo-841130.jpeg",
 };
 
 function Home() {
@@ -118,18 +115,19 @@ function Home() {
 
       {/* Categories */}
       <div id="categories" className="mb-10">
-        <h2 className="text-2xl font-bold mb-4">📁 Shop by Category</h2>
-        <div className="grid grid-cols-3 gap-6">
-          {allCategories.map((cat, i) => (
-            <motion.div key={i} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
-              <CategoryCard
-                title={cat}
-                image={categoryImages[cat] || `https://source.unsplash.com/600x400/?${encodeURIComponent(cat)}`}
-              />
-            </motion.div>
-          ))}
-        </div>
-      </div>
+         <h2 className="text-2xl font-bold mb-4">📁 Shop by Category</h2>
+           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+         {allCategories.map((cat, i) => (
+          <motion.div key={i} whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }}>
+          <CategoryCard
+          title={cat}
+          image={categoryImages[cat] || `https://source.unsplash.com/600x400/?${encodeURIComponent(cat)}`}
+           />
+           </motion.div>
+            ))}
+         </div>
+         </div>
+
 
       {/* Filtered Products (Category or Search) */}
       {(category !== "all" || searchTriggered) && (
