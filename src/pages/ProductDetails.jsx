@@ -1,14 +1,7 @@
 import { useParams } from "react-router-dom";
 import {
-  doc,
-  getDoc,
-  collection,
-  query,
-  where,
-  getDocs,
-  addDoc,
-  updateDoc,
-  deleteDoc
+  doc, getDoc, collection, query, where,
+  getDocs, addDoc, updateDoc, deleteDoc
 } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
@@ -31,7 +24,8 @@ function ProductDetails() {
       const ref = doc(db, "products", id);
       const snap = await getDoc(ref);
       if (snap.exists()) {
-        setProduct({ id: snap.id, ...snap.data() });
+        const data = snap.data();
+        setProduct({ id: snap.id, ...data, quantity: data.quantity ?? 0 });
       }
     };
 
@@ -116,7 +110,16 @@ function ProductDetails() {
         <div>
           <h2 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">{product.name}</h2>
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">{product.category}</p>
-          <p className="text-green-600 dark:text-green-400 font-bold text-2xl mb-3">${product.price}</p>
+          <p className="text-green-600 dark:text-green-400 font-bold text-2xl mb-1">${product.price}</p>
+
+          {/* Quantity info */}
+          {product.quantity === 0 ? (
+            <p className="text-red-600 dark:text-red-400 font-semibold mb-2">🚫 Out of Stock</p>
+          ) : product.quantity < 10 ? (
+            <p className="text-red-600 dark:text-red-400 font-medium mb-2">
+              Only {product.quantity} left in stock
+            </p>
+          ) : null}
 
           {avgRating && (
             <p className="text-yellow-500 font-medium mb-3">
@@ -130,7 +133,12 @@ function ProductDetails() {
 
           <div className="flex flex-wrap gap-4">
             <button
-              className="bg-blue-600 text-white px-5 py-2 rounded-lg shadow hover:bg-blue-700"
+              className={`px-5 py-2 rounded-lg shadow text-white ${
+                product.quantity === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              }`}
+              disabled={product.quantity === 0}
               onClick={() => {
                 addToCart(product);
                 alert("Added to cart!");
@@ -139,7 +147,12 @@ function ProductDetails() {
               🛒 Add to Cart
             </button>
             <button
-              className="bg-pink-600 text-white px-5 py-2 rounded-lg shadow hover:bg-pink-700"
+              className={`px-5 py-2 rounded-lg shadow text-white ${
+                product.quantity === 0
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-pink-600 hover:bg-pink-700"
+              }`}
+              disabled={product.quantity === 0}
               onClick={() => {
                 if (!user) return alert("Please login to use wishlist");
                 addToWishlist(product);
@@ -155,7 +168,6 @@ function ProductDetails() {
       {/* ⭐ Review Section */}
       <div className="mt-12">
         <h3 className="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-100">📝 Product Reviews</h3>
-
         {user && (
           <div className="mb-6 space-y-3">
             <textarea

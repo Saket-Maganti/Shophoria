@@ -3,7 +3,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import ProductCard from "../components/ProductCard";
 import CategoryCard from "../components/CategoryCard";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const categoryImages = {
@@ -25,7 +25,6 @@ function Home() {
   const PRODUCTS_PER_PAGE = 6;
 
   const location = useLocation();
-  const navigate = useNavigate();
   const productSectionRef = useRef();
 
   useEffect(() => {
@@ -44,7 +43,12 @@ function Home() {
     const fetchData = async () => {
       setLoading(true);
       const snapshot = await getDocs(collection(db, "products"));
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const data = snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data(),
+        quantity: doc.data().quantity ?? 0, // fallback to 0 if undefined
+      }));
+      
       setProducts(data);
       setLoading(false);
     };

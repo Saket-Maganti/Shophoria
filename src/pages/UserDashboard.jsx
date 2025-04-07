@@ -13,10 +13,11 @@ function UserDashboard() {
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [reviews, setReviews] = useState([]);
+  const [coupons, setCoupons] = useState([]); // Added coupons state
   const [activeSection, setActiveSection] = useState("profile");
 
   useEffect(() => {
-    const fetchOrdersAndReviews = async () => {
+    const fetchOrdersReviewsAndCoupons = async () => {
       if (!user) return;
 
       const orderQ = query(collection(db, "orders"), where("userId", "==", user.uid));
@@ -28,11 +29,16 @@ function UserDashboard() {
       const reviewSnap = await getDocs(reviewQ);
       const reviewList = reviewSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setReviews(reviewList);
+
+      // Fetch coupons (assuming global coupons for simplicity; adjust query if user-specific)
+      const couponSnap = await getDocs(collection(db, "coupons"));
+      const couponList = couponSnap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setCoupons(couponList);
     };
 
     setCartCount(getCart().length);
     setWishlistCount(getWishlist().length);
-    fetchOrdersAndReviews();
+    fetchOrdersReviewsAndCoupons();
   }, [user]);
 
   const handleDeleteReview = async (reviewId) => {
@@ -67,6 +73,12 @@ function UserDashboard() {
           className={`px-4 py-2 rounded ${activeSection === "reviews" ? "bg-indigo-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
         >
           Reviews
+        </button>
+        <button
+          onClick={() => setActiveSection("rewards")}
+          className={`px-4 py-2 rounded ${activeSection === "rewards" ? "bg-indigo-600 text-white" : "bg-gray-200 dark:bg-gray-700 dark:text-white"}`}
+        >
+          Rewards
         </button>
       </div>
 
@@ -146,6 +158,42 @@ function UserDashboard() {
                     <Link to={`/product/${review.productId}`} className="text-indigo-600 hover:underline text-sm">Edit Review</Link>
                     <button onClick={() => handleDeleteReview(review.id)} className="text-red-600 hover:underline text-sm">Delete</button>
                   </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </motion.div>
+      )}
+
+      {activeSection === "rewards" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }} // Slightly longer delay for visual hierarchy
+          className="mt-6 bg-white dark:bg-gray-800 border rounded shadow p-4 dark:border-gray-700"
+        >
+          <h2 className="text-xl font-semibold mb-4">🎁 My Rewards</h2>
+          {coupons.length === 0 ? (
+            <p className="text-gray-500 dark:text-gray-400">No rewards available right now.</p>
+          ) : (
+            <ul className="space-y-4">
+              {coupons.map((coupon) => (
+                <li key={coupon.id} className="border-b pb-2 border-gray-200 dark:border-gray-700">
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Code:</span> <span className="font-mono">{coupon.code}</span>
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Type:</span> {coupon.type}
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Amount:</span> {coupon.amount}{coupon.type === "percentage" ? "%" : "$"}
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Min Order:</span> ${coupon.minOrder || 0}
+                  </p>
+                  <p className="text-gray-700 dark:text-gray-300">
+                    <span className="font-semibold">Expires:</span> {coupon.expiresAt || "N/A"}
+                  </p>
                 </li>
               ))}
             </ul>

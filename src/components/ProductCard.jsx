@@ -17,7 +17,6 @@ function ProductCard({ product }) {
       alert("Please login to use wishlist.");
       return;
     }
-
     addToWishlist(product);
     alert(`${product.name} added to wishlist`);
   };
@@ -39,19 +38,39 @@ function ProductCard({ product }) {
           <p className="text-green-600 dark:text-green-400 font-bold text-base">
             ${parseFloat(product.price).toFixed(2)}
           </p>
+
+          {/* Quantity Info */}
+          {product.quantity === 0 ? (
+            <p className="text-red-600 font-semibold">🚫 Out of Stock</p>
+          ) : product.quantity < 10 ? (
+            <p className="text-red-600 dark:text-red-400 text-sm font-medium">
+              Only {product.quantity} left in stock
+            </p>
+          ) : null}
         </div>
       </Link>
 
+      {/* Buttons */}
       <div className="flex justify-between items-center px-4 py-3 border-t dark:border-gray-600">
         <button
           onClick={handleAddToCart}
-          className="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1.5 rounded"
+          disabled={product.quantity === 0}
+          className={`flex items-center gap-1 px-3 py-1.5 rounded text-sm ${
+            product.quantity === 0
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-indigo-600 hover:bg-indigo-700 text-white"
+          }`}
         >
           <ShoppingCart size={16} /> Add to Cart
         </button>
         <button
           onClick={handleAddToWishlist}
-          className="flex items-center gap-1 bg-pink-600 hover:bg-pink-700 text-white text-sm px-3 py-1.5 rounded"
+          disabled={product.quantity === 0}
+          className={`flex items-center gap-1 px-3 py-1.5 rounded text-sm ${
+            product.quantity === 0
+              ? "bg-gray-400 cursor-not-allowed text-white"
+              : "bg-pink-600 hover:bg-pink-700 text-white"
+          }`}
         >
           <Heart size={16} /> Wishlist
         </button>

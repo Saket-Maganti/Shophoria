@@ -14,7 +14,15 @@ function Cart() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetch = () => setItems(getCart());
+    const fetch = () => {
+      const rawItems = getCart();
+      const updatedItems = rawItems.map(item => ({
+        ...item,
+        quantity: item.quantity ?? 1,
+        stock: item.stock ?? item.quantity ?? 1, // fallback
+      }));
+      setItems(updatedItems);
+    };
     fetch();
     window.addEventListener("cartUpdated", fetch);
     return () => window.removeEventListener("cartUpdated", fetch);
@@ -28,7 +36,10 @@ function Cart() {
 
   const getTotal = () =>
     items
-      .reduce((total, item) => total + item.quantity * parseFloat(item.price), 0)
+      .reduce((total, item) => {
+        if (item.stock === 0) return total;
+        return total + item.quantity * parseFloat(item.price);
+      }, 0)
       .toFixed(2);
 
   const handleClear = () => {
@@ -47,8 +58,14 @@ function Cart() {
       return;
     }
 
+    const inStockItems = items.filter(item => item.stock > 0);
+    if (inStockItems.length === 0) {
+      alert("All items in your cart are out of stock.");
+      return;
+    }
+
     const order = {
-      items,
+      items: inStockItems,
       total: parseFloat(getTotal()),
     };
 
@@ -75,10 +92,16 @@ function Cart() {
                   <p className="text-sm text-gray-600 dark:text-gray-400">
                     ${item.price} × {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
                   </p>
+
+                  {item.stock === 0 && (
+                    <p className="text-red-600 font-medium mt-1">🚫 Out of Stock</p>
+                  )}
+
                   <div className="flex items-center gap-2 mt-3">
                     <button
                       className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
                       onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                      disabled={item.stock === 0}
                     >
                       −
                     </button>
@@ -86,6 +109,7 @@ function Cart() {
                     <button
                       className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
                       onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                      disabled={item.stock === 0}
                     >
                       +
                     </button>

@@ -6,7 +6,15 @@ function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
-    const fetch = () => setWishlist(getWishlist());
+    const fetch = () => {
+      const raw = getWishlist();
+      const updated = raw.map(item => ({
+        ...item,
+        quantity: item.quantity ?? 1,
+        stock: item.stock ?? item.quantity ?? 1,
+      }));
+      setWishlist(updated);
+    };
     fetch();
     window.addEventListener("wishlistUpdated", fetch);
     return () => window.removeEventListener("wishlistUpdated", fetch);
@@ -18,6 +26,7 @@ function Wishlist() {
   };
 
   const handleMoveToCart = (item) => {
+    if (item.stock === 0) return alert("Item is out of stock and cannot be added to cart.");
     addToCart(item);
     removeFromWishlist(item.id);
     alert("Moved to cart!");
@@ -48,13 +57,19 @@ function Wishlist() {
                 <div>
                   <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.name}</h3>
                   <p className="text-sm text-gray-600 dark:text-gray-400">${item.price}</p>
+                  {item.stock === 0 && (
+                    <p className="text-red-500 text-sm mt-1">🚫 Out of Stock</p>
+                  )}
                 </div>
               </div>
 
               <div className="flex gap-2">
                 <button
                   onClick={() => handleMoveToCart(item)}
-                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-1.5 rounded text-sm"
+                  className={`px-4 py-1.5 rounded text-sm text-white ${
+                    item.stock === 0 ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700"
+                  }`}
+                  disabled={item.stock === 0}
                 >
                   Move to Cart
                 </button>

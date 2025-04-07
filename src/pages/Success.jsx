@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 
 function Success() {
@@ -18,6 +25,7 @@ function Success() {
       const order = JSON.parse(orderFromStorage);
 
       try {
+        // 1. Save the order
         await addDoc(collection(db, "orders"), {
           userId: user.uid,
           email: user.email,
@@ -29,6 +37,19 @@ function Success() {
           createdAt: serverTimestamp(),
         });
 
+        // 2. Auto-decrement quantity for each product
+        for (const item of order.items || []) {
+          const productRef = doc(db, "products", item.id);
+          const productSnap = await getDoc(productRef);
+
+          if (productSnap.exists()) {
+            const currentQty = productSnap.data().quantity || 0;
+            const newQty = Math.max(0, currentQty - (item.quantity || 1));
+            await updateDoc(productRef, { quantity: newQty });
+          }
+        }
+
+        // 3. Clear local storage and trigger cart UI update
         localStorage.removeItem("marketverse_cart");
         localStorage.removeItem("last_order");
 

@@ -3,6 +3,7 @@ import { auth, db } from "../firebase";
 import { doc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { assignWelcomeCouponsToUser } from "../utils/assignWelcomeCoupons"; // ✅ Import added
 
 function Register() {
   const [email, setEmail] = useState("");
@@ -16,11 +17,15 @@ function Register() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
+      // Create user doc
       await setDoc(doc(db, "users", user.uid), {
         email: user.email,
         name,
         role: "customer",
       });
+
+      // ✅ Assign welcome coupons
+      await assignWelcomeCouponsToUser(user.uid);
 
       alert("Registration successful!");
       navigate("/login");
