@@ -32,7 +32,8 @@ function Invoice() {
     html2pdf().set(options).from(invoiceRef.current).save();
   };
 
-  if (!order) return <p className="p-4 text-gray-500 dark:text-gray-300">Loading invoice...</p>;
+  if (!order)
+    return <p className="p-4 text-gray-500 dark:text-gray-300">Loading invoice...</p>;
 
   const orderItems = order.products || order.items || [];
   const subtotal = orderItems.reduce(
@@ -43,20 +44,20 @@ function Invoice() {
   const total = parseFloat(order.total || 0);
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen dark:bg-gray-900">
+    <div className="p-6 bg-gradient-to-br from-gray-50 to-gray-200 dark:from-gray-900 dark:to-gray-800 min-h-screen">
       <div
         ref={invoiceRef}
-        className="bg-white dark:bg-gray-800 shadow-xl rounded-lg p-8 max-w-3xl mx-auto border border-gray-200 dark:border-gray-700"
+        className="bg-white dark:bg-gray-900 shadow-2xl rounded-2xl p-10 max-w-4xl mx-auto border border-gray-300 dark:border-gray-700"
       >
         {/* Header */}
-        <div className="flex justify-between items-start mb-6 border-b pb-4">
+        <div className="flex justify-between items-start mb-10 border-b pb-6 border-gray-300 dark:border-gray-700">
           <div>
-            <h2 className="text-3xl font-extrabold text-indigo-700 dark:text-indigo-400">Shophoria</h2>
-            <p className="text-sm text-gray-500 dark:text-gray-400">123 Online Ave, Ecom City, NY</p>
-            <p className="text-sm text-gray-500 dark:text-gray-400">support@shophoria.com</p>
+            <h2 className="text-4xl font-extrabold text-indigo-700 dark:text-indigo-400">Shophoria</h2>
+            <p className="text-sm text-gray-600 dark:text-gray-400">123 Online Ave, Ecom City, NY</p>
+            <p className="text-sm text-gray-600 dark:text-gray-400">support@shophoria.com</p>
           </div>
           <div className="text-right">
-            <h3 className="text-xl font-semibold text-gray-800 dark:text-white">INVOICE</h3>
+            <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-1">INVOICE</h3>
             <p className="text-sm text-gray-600 dark:text-gray-300">
               Invoice #: <span className="font-mono">SH-{order.id.slice(0, 6).toUpperCase()}</span>
             </p>
@@ -70,38 +71,38 @@ function Invoice() {
         </div>
 
         {/* Billing & Payment */}
-        <div className="mb-6 grid grid-cols-2 gap-4 text-sm">
+        <div className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-6 text-sm">
           <div>
             <p className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Billed To:</p>
-            <p className="text-gray-600 dark:text-gray-400">{order.email}</p>
-            <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line">{order.address}</p>
+            <p className="text-gray-700 dark:text-gray-400">{order.email}</p>
+            <p className="text-gray-700 dark:text-gray-400 whitespace-pre-line">{order.address}</p>
           </div>
           <div>
             <p className="font-semibold text-gray-700 dark:text-gray-300 mb-1">Payment Method:</p>
-            <p className="text-gray-600 dark:text-gray-400">Stripe (Card)</p>
+            <p className="text-gray-700 dark:text-gray-400">Stripe (Card)</p>
           </div>
         </div>
 
         {/* Items Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-t border-b border-gray-200 dark:border-gray-700 text-sm">
+        <div className="overflow-x-auto rounded-lg">
+          <table className="w-full text-left border border-gray-300 dark:border-gray-700 text-sm shadow-sm">
             <thead>
-              <tr className="bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200">
-                <th className="py-2 px-2">Product</th>
-                <th className="py-2 px-2">Price</th>
-                <th className="py-2 px-2">Qty</th>
-                <th className="py-2 px-2">Total</th>
+              <tr className="bg-indigo-100 dark:bg-indigo-800 text-indigo-900 dark:text-white">
+                <th className="py-3 px-4">Product</th>
+                <th className="py-3 px-4">Price</th>
+                <th className="py-3 px-4">Qty</th>
+                <th className="py-3 px-4">Total</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-700">
               {orderItems.map((item, idx) => (
-                <tr key={idx} className="border-b border-gray-200 dark:border-gray-700">
-                  <td className="py-2 px-2 text-gray-700 dark:text-gray-300">{item.name}</td>
-                  <td className="py-2 px-2 text-gray-700 dark:text-gray-300">
+                <tr key={idx}>
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-300">{item.name}</td>
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-300">
                     ${parseFloat(item.price).toFixed(2)}
                   </td>
-                  <td className="py-2 px-2 text-gray-700 dark:text-gray-300">{item.quantity || 1}</td>
-                  <td className="py-2 px-2 text-gray-700 dark:text-gray-300">
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-300">{item.quantity || 1}</td>
+                  <td className="py-3 px-4 text-gray-800 dark:text-gray-300">
                     ${(parseFloat(item.price) * (item.quantity || 1)).toFixed(2)}
                   </td>
                 </tr>
@@ -111,7 +112,7 @@ function Invoice() {
         </div>
 
         {/* Summary Section */}
-        <div className="mt-6 text-right space-y-1 text-sm text-gray-700 dark:text-gray-300">
+        <div className="mt-8 text-right space-y-2 text-sm text-gray-800 dark:text-gray-300">
           <p>Subtotal: ${subtotal.toFixed(2)}</p>
           {order.couponCode && (
             <p>
@@ -125,10 +126,10 @@ function Invoice() {
       </div>
 
       {/* Download Button */}
-      <div className="text-center mt-6">
+      <div className="text-center mt-8">
         <button
           onClick={handleDownload}
-          className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium px-6 py-2 rounded shadow"
+          className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-lg shadow-lg transition"
         >
           📄 Download Invoice
         </button>
