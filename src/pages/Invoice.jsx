@@ -48,7 +48,6 @@ function Invoice() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 p-8 flex flex-col items-center">
-      {/* Invoice Container */}
       <div
         ref={invoiceRef}
         className="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 transition-all duration-300"
