@@ -22,18 +22,23 @@ function Invoice() {
 
   const handleDownload = () => {
     if (!invoiceRef.current) return;
+
+    const clone = invoiceRef.current.cloneNode(true);
+    const styleLink = document.createElement("link");
+    styleLink.rel = "stylesheet";
+    styleLink.href = "https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css";
+    clone.insertBefore(styleLink, clone.firstChild);
+
     const options = {
       margin: [0.5, 0.5, 0.5, 0.5],
       filename: `invoice-${orderId}-${Date.now()}.pdf`,
       image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 3, useCORS: true, logging: false },
+      html2canvas: { scale: 4, useCORS: true, logging: false },
       jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
     };
-    html2pdf()
-      .set(options)
-      .from(invoiceRef.current)
-      .save()
-      .catch(err => console.error("PDF generation failed:", err));
+    html2pdf().set(options).from(clone).save().catch((err) => {
+      console.error("PDF generation failed:", err);
+    });
   };
 
   if (!order) return <p className="p-6 text-gray-500 dark:text-gray-400 animate-pulse text-center">Loading your invoice...</p>;
@@ -52,7 +57,6 @@ function Invoice() {
         ref={invoiceRef}
         className="w-full max-w-3xl bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 border border-gray-200 dark:border-gray-700 transition-all duration-300"
       >
-        {/* Header */}
         <div className="flex justify-between items-start mb-6">
           <div>
             <h2 className="text-xl font-bold text-gray-800 dark:text-gray-100">Shophoria</h2>
@@ -69,7 +73,6 @@ function Invoice() {
           </div>
         </div>
 
-        {/* Billing & Payment Info */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
           <div className="p-3 bg-gray-50 dark:bg-gray-700 rounded-md">
             <h4 className="text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">Billed To</h4>
@@ -85,7 +88,6 @@ function Invoice() {
           </div>
         </div>
 
-        {/* Items Table */}
         <div className="mb-6">
           <table className="w-full text-left text-sm">
             <thead>
@@ -109,7 +111,6 @@ function Invoice() {
           </table>
         </div>
 
-        {/* Totals */}
         <div className="flex justify-end mb-6">
           <div className="w-full sm:w-1/3 text-sm">
             <div className="space-y-2 bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
@@ -131,13 +132,11 @@ function Invoice() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center text-xs text-gray-500 dark:text-gray-400 pt-4 border-t border-gray-100 dark:border-gray-700">
           Thank you for choosing Shophoria! • support@shophoria.com
         </div>
       </div>
 
-      {/* Button */}
       <div className="mt-6 flex justify-center">
         <button
           onClick={handleDownload}
