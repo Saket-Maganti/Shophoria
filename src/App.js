@@ -13,7 +13,6 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AdminRoute from "./routes/AdminRoute";
 import Checkout from "./pages/Checkout";
 import Invoice from "./pages/Invoice";
-import Seed from "./pages/Seed";
 import UserDashboard from "./pages/UserDashboard";
 import Success from "./pages/Success";
 import Cancel from "./pages/Cancel";
@@ -34,7 +33,6 @@ function App() {
           <Route path="/checkout" element={<PrivateRoute><Checkout /></PrivateRoute>} />
           <Route path="/invoice/:orderId" element={<PrivateRoute><Invoice /></PrivateRoute>} />
           <Route path="/admin" element={<AdminRoute><AdminDashboard /></AdminRoute>} />
-          <Route path="/seed" element={<AdminRoute><Seed /></AdminRoute>} />
           <Route path="/product/:id" element={<ProductDetails />} />
           <Route path="/dashboard" element={<PrivateRoute><UserDashboard /></PrivateRoute>} />
           <Route path="/success" element={<Success />} />

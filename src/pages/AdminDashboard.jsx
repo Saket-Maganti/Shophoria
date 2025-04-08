@@ -22,7 +22,7 @@ import {
 } from "recharts";
 import { saveAs } from "file-saver";
 import html2pdf from "html2pdf.js";
-import { seedProducts } from "../utils/seedUtils";
+import { seedProducts } from "../utils/productUtils";
 
 // Reusable Stat Card
 const StatCard = ({ title, value, onClick }) => (

@@ -4,7 +4,7 @@ import {
   removeFromCart,
   updateCartItem,
 } from "../utils/cartUtils";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -13,25 +13,26 @@ function Cart() {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetch = () => {
-      const rawItems = getCart();
-      const updatedItems = rawItems.map(item => ({
-        ...item,
-        quantity: item.quantity ?? 1,
-        stock: item.stock ?? item.quantity ?? 1, // fallback
-      }));
-      setItems(updatedItems);
-    };
-    fetch();
-    window.addEventListener("cartUpdated", fetch);
-    return () => window.removeEventListener("cartUpdated", fetch);
+  const fetchCart = useCallback(() => {
+    const rawItems = getCart();
+    const updatedItems = rawItems.map(item => ({
+      ...item,
+      quantity: item.quantity ?? 1,
+      stock: item.stock ?? item.quantity ?? 1,
+    }));
+    setItems(updatedItems);
   }, []);
+
+  useEffect(() => {
+    fetchCart();
+    window.addEventListener("cartUpdated", fetchCart);
+    return () => window.removeEventListener("cartUpdated", fetchCart);
+  }, [fetchCart]);
 
   const handleQtyChange = (id, quantity) => {
     if (quantity <= 0) return;
     updateCartItem(id, quantity);
-    setItems(getCart());
+    fetchCart();
   };
 
   const getTotal = () =>
@@ -49,7 +50,7 @@ function Cart() {
 
   const handleRemove = (productId) => {
     removeFromCart(productId);
-    setItems(getCart());
+    fetchCart();
   };
 
   const handleProceedToCheckout = () => {
@@ -87,34 +88,43 @@ function Cart() {
                 key={item.id}
                 className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center border p-4 rounded dark:border-gray-700 bg-white dark:bg-gray-800 shadow"
               >
-                <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.name}</h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">
-                    ${item.price} × {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
-                  </p>
-
-                  {item.stock === 0 && (
-                    <p className="text-red-600 font-medium mt-1">🚫 Out of Stock</p>
+                <div className="flex items-center gap-4 flex-1">
+                  {item.image && (
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-20 h-20 object-cover rounded border dark:border-gray-700"
+                    />
                   )}
 
-                  <div className="flex items-center gap-2 mt-3">
-                    <button
-                      className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-                      onClick={() => handleQtyChange(item.id, item.quantity - 1)}
-                      disabled={item.stock === 0}
-                    >
-                      −
-                    </button>
-                    <span className="text-gray-800 dark:text-white">{item.quantity}</span>
-                    <button
-                      className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
-                      onClick={() => handleQtyChange(item.id, item.quantity + 1)}
-                      disabled={item.stock === 0}
-                    >
-                      +
-                    </button>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-semibold text-gray-800 dark:text-white">{item.name}</h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-400">
+                      ${item.price} × {item.quantity} = ${(item.price * item.quantity).toFixed(2)}
+                    </p>
+                    {item.stock === 0 && (
+                      <p className="text-red-600 font-medium mt-1">🚫 Out of Stock</p>
+                    )}
+                    <div className="flex items-center gap-2 mt-3">
+                      <button
+                        onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                        disabled={item.stock === 0}
+                        className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                      >
+                        −
+                      </button>
+                      <span className="text-gray-800 dark:text-white">{item.quantity}</span>
+                      <button
+                        onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                        disabled={item.stock === 0}
+                        className="w-8 h-8 bg-gray-200 dark:bg-gray-700 text-xl font-semibold rounded hover:bg-gray-300 dark:hover:bg-gray-600"
+                      >
+                        +
+                      </button>
+                    </div>
                   </div>
                 </div>
+
                 <button
                   onClick={() => handleRemove(item.id)}
                   className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm"
@@ -129,9 +139,7 @@ function Cart() {
             <div className="flex justify-between items-center flex-wrap gap-4">
               <p className="text-xl font-semibold text-gray-800 dark:text-white">
                 Total:{" "}
-                <span className="text-green-600 dark:text-green-400">
-                  ${getTotal()}
-                </span>
+                <span className="text-green-600 dark:text-green-400">${getTotal()}</span>
               </p>
 
               <div className="flex gap-3 flex-wrap">

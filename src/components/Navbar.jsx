@@ -2,10 +2,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../firebase";
 import { useAuth } from "../context/AuthContext";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { getCart } from "../utils/cartUtils";
 import { getWishlist } from "../utils/wishlistUtils";
-import { Moon, Sun } from "lucide-react"; // npm install lucide-react
+import { Moon, Sun } from "lucide-react";
 
 function Navbar() {
   const { user, isAdmin, userName } = useAuth();
@@ -14,12 +14,12 @@ function Navbar() {
   const [wishlistCount, setWishlistCount] = useState(0);
   const [darkMode, setDarkMode] = useState(() => localStorage.getItem("theme") === "dark");
 
-  useEffect(() => {
-    const updateCounts = () => {
-      setCartCount(getCart().length);
-      setWishlistCount(getWishlist().length);
-    };
+  const updateCounts = useCallback(() => {
+    setCartCount(getCart().length);
+    setWishlistCount(getWishlist().length);
+  }, []);
 
+  useEffect(() => {
     updateCounts();
     window.addEventListener("cartUpdated", updateCounts);
     window.addEventListener("wishlistUpdated", updateCounts);
@@ -27,7 +27,7 @@ function Navbar() {
       window.removeEventListener("cartUpdated", updateCounts);
       window.removeEventListener("wishlistUpdated", updateCounts);
     };
-  }, []);
+  }, [updateCounts, user]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -50,41 +50,26 @@ function Navbar() {
         </Link>
 
         <div className="flex items-center gap-4 text-sm font-medium">
-          <Link
-            to="/"
-            className="hover:text-indigo-600 dark:hover:text-indigo-400 transition"
-          >
+          <Link to="/" className="hover:text-indigo-600 dark:hover:text-indigo-400 transition">
             Home
           </Link>
 
           {user ? (
             <>
-              <Link
-                to="/cart"
-                className="hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
+              <Link to="/cart" className="hover:text-indigo-600 dark:hover:text-indigo-400">
                 🛒 Cart ({cartCount})
               </Link>
 
-              <Link
-                to="/wishlist"
-                className="hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
+              <Link to="/wishlist" className="hover:text-indigo-600 dark:hover:text-indigo-400">
                 ❤️ Wishlist ({wishlistCount})
               </Link>
 
-              <Link
-                to="/dashboard"
-                className="hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
+              <Link to="/dashboard" className="hover:text-indigo-600 dark:hover:text-indigo-400">
                 👤 My Profile
               </Link>
 
               {isAdmin && (
-                <Link
-                  to="/admin"
-                  className="text-red-600 hover:text-red-500 font-semibold"
-                >
+                <Link to="/admin" className="text-red-600 hover:text-red-500 font-semibold">
                   Admin
                 </Link>
               )}
@@ -102,28 +87,18 @@ function Navbar() {
             </>
           ) : (
             <>
-              <Link
-                to="/login"
-                className="hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
+              <Link to="/login" className="hover:text-indigo-600 dark:hover:text-indigo-400">
                 Login
               </Link>
-              <Link
-                to="/register"
-                className="hover:text-indigo-600 dark:hover:text-indigo-400"
-              >
+              <Link to="/register" className="hover:text-indigo-600 dark:hover:text-indigo-400">
                 Register
               </Link>
-              <Link
-                to="/admin-login"
-                className="text-red-500 hover:text-red-600"
-              >
+              <Link to="/admin-login" className="text-red-500 hover:text-red-600">
                 Admin Login
               </Link>
             </>
           )}
 
-          {/* 🌗 Theme toggle */}
           <button
             onClick={() => setDarkMode(!darkMode)}
             className="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition"

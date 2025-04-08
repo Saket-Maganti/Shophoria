@@ -1,26 +1,51 @@
+// CouponInput.jsx
 import { useState } from "react";
-import { coupons } from "../utils/couponData";
+import { db } from "../firebase";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  updateDoc,
+  doc
+} from "firebase/firestore";
+import { useAuth } from "../context/AuthContext";
 
 function CouponInput({ onApply }) {
   const [code, setCode] = useState("");
   const [status, setStatus] = useState("");
+  const { user } = useAuth();
 
-  const handleApply = () => {
-    const coupon = coupons.find(c => c.code.toLowerCase() === code.trim().toLowerCase());
+  const handleApply = async () => {
+    if (!user) return;
+    const couponRef = collection(db, "users", user.uid, "coupons");
+    const q = query(couponRef, where("code", "==", code.trim().toUpperCase()));
+    const snap = await getDocs(q);
 
-    if (!coupon) {
-      setStatus("❌ Invalid code");
+    if (snap.empty) {
+      setStatus("❌ Invalid or not assigned coupon");
       return;
     }
 
+    const couponDoc = snap.docs[0];
+    const coupon = couponDoc.data();
     const now = new Date();
+
     if (coupon.expiresAt && new Date(coupon.expiresAt) < now) {
       setStatus("❌ Coupon expired");
       return;
     }
 
+    if (coupon.used) {
+      setStatus("❌ Coupon already used");
+      return;
+    }
+
+    // Mark coupon as used immediately for now (can be updated after successful payment)
+    await updateDoc(doc(db, "users", user.uid, "coupons", couponDoc.id), { used: true });
+
     setStatus(`✅ Coupon "${coupon.code}" applied!`);
-    onApply(coupon);
+    onApply({ ...coupon, id: couponDoc.id });
   };
 
   return (
@@ -44,7 +69,9 @@ function CouponInput({ onApply }) {
         </button>
       </div>
       {status && (
-        <p className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-300">{status}</p>
+        <p className="mt-2 text-sm font-medium text-gray-600 dark:text-gray-300">
+          {status}
+        </p>
       )}
     </div>
   );
