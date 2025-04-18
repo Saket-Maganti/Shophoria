@@ -187,11 +187,6 @@ npm start
 
 ---
 
-## 👩‍💻 Author
-
-**Saket Maganti**  
-Full Stack Developer – Java | React | Firebase | Stripe | Spring Boot  
-
 ---
 
 ## 📜 License
