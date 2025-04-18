@@ -37,8 +37,8 @@ export default async function handler(req, res) {
         total: total?.toString() || "0",
       },
       mode: "payment",
-      success_url: "https://shophoria-six.vercel.app/success",
-      cancel_url: "https://shophoria-six.vercel.app/cancel",
+      success_url: "https://shophoria-delta.vercel.app/success",
+      cancel_url: "https://shophoria-delta.vercel.app/cancel",
     });
 
     res.status(200).json({ id: session.id });
