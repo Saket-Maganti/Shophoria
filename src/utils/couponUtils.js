@@ -7,21 +7,21 @@ export const allCoupons = [
     code: "WELCOME10",
     type: "percentage",
     amount: 10,
-    minOrder: 0,
+    minOrder: 100,
     expiresAt: "2025-12-31",
   },
   {
-    code: "FREESHIP",
+    code: "FREE50",
     type: "flat",
-    amount: 10,
-    minOrder: 0,
+    amount: 50,
+    minOrder: 300,
     expiresAt: "2025-12-31",
   },
   {
     code: "NEWUSER5",
     type: "flat",
-    amount: 5,
-    minOrder: 20,
+    amount: 20,
+    minOrder: 200,
     expiresAt: "2025-12-31",
   },
   {
@@ -65,7 +65,7 @@ export async function seedGlobalCoupons() {
 // Assign welcome coupons to a specific user
 export async function assignWelcomeCouponsToUser(userId) {
   const welcomeCoupons = allCoupons.filter(coupon =>
-    ["WELCOME10", "FREESHIP", "NEWUSER5"].includes(coupon.code)
+    ["WELCOME10", "FREE50", "NEWUSER5"].includes(coupon.code)
   );
 
   const userCouponRef = collection(db, "users", userId, "coupons");

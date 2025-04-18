@@ -1,70 +1,199 @@
-# Getting Started with Create React App
+# 🛍️ Shophoria
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Shophoria** is a modern, responsive, and fully functional e-commerce web application built using **React**, **Tailwind CSS**, and additional powerful tools like **Stripe**, **Firebase**, and **Vercel**. It provides a seamless shopping experience with admin capabilities, customer-friendly interfaces, and secure payment integrations.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## 🌐 Live Demo
 
-### `npm start`
+Coming soon...
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## 📌 Key Features
 
-### `npm test`
+### 👤 User Features
+- 🔐 Firebase Authentication (Register/Login)
+- 🛍️ Browse Products by Categories
+- 🔎 Search, Filter by Price, and View Product Details
+- 🧺 Add to Cart and Wishlist (with `localStorage`)
+- 🧾 Place Orders with Address Entry
+- 📜 Order History and Downloadable Invoices (via `html2pdf.js`)
+- 📝 Submit and Manage Product Reviews
+- 🎁 Rewards System with Coupons and Signup Bonuses
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 🛠️ Admin Features
+- 📊 Dashboard with Stats and Charts
+- 📦 Add/Edit/Delete Products with Quantity and Image Uploads
+- 👥 View and Manage Users (promote/demote roles)
+- 📝 Review Moderation (delete offensive or fake reviews)
+- 🎟️ Create, Edit, and Delete Coupon Codes
+- 📉 Track Low Stock Inventory
 
-### `npm run build`
+### 💳 Checkout & Payments
+- Integrated with **Stripe** for secure payments
+- Serverless backend using **Vercel** functions
+- Stripe Webhooks to track order status and payments
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## 🧱 Tech Stack
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Layer      | Technologies |
+|------------|--------------|
+| Frontend   | React, Tailwind CSS, Framer Motion |
+| Backend    | Node.js (Vercel Serverless Functions) |
+| Database   | Firebase Firestore |
+| Auth       | Firebase Authentication |
+| Storage    | Firebase Storage |
+| Payments   | Stripe |
+| Deployment | Firebase Hosting (Frontend), Vercel (Backend Functions) |
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## 📁 Project Structure
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
+Shophoria/
+│
+├── api/                        # Vercel Serverless Functions (Stripe)
+│   ├── create-checkout-session.js
+│   ├── stripe-webhook.js
+│
+├── public/                     # Static assets
+├── src/
+│   ├── components/             # Reusable UI components (Navbar, Footer, ProductCard, etc.)
+│   ├── context/                # Auth, Cart, Wishlist Context
+│   ├── pages/                  # Page Components (Home, ProductDetails, Cart, Admin, etc.)
+│   ├── routes/                 # Private & Public Routes
+│   ├── utils/                  # Utility functions (cart, wishlist, formatters)
+│   ├── firebase.js             # Firebase configuration
+│
+├── firebase.json               # Firebase project setup
+├── vercel.json                 # API function deployment setup
+├── tailwind.config.js          # Tailwind configuration
+├── package.json                # Dependencies and scripts
+└── README.md                   # Project documentation
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## 📦 Installation
 
-## Learn More
+### Prerequisites
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Node.js (v18 or higher)
+- Firebase CLI (`npm install -g firebase-tools`)
+- Stripe Account
+- Vercel Account (for backend)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Install All Dependencies (Except Firebase, Stripe, Vercel)
 
-### Code Splitting
+```bash
+npm install `
+"@craco/craco" `
+"@stripe/stripe-js" `
+"@testing-library/dom" `
+"@testing-library/jest-dom" `
+"@testing-library/react" `
+"@testing-library/user-event" `
+"axios" `
+"file-saver" `
+"framer-motion" `
+"html2pdf.js" `
+"lucide-react" `
+"react" `
+"react-dom" `
+"react-hot-toast" `
+"react-router-dom" `
+"react-scripts" `
+"react-to-print" `
+"recharts" `
+"web-vitals" `
+"autoprefixer" `
+"patch-package" `
+"postcss" `
+"tailwindcss" `
+"tailwindcss-cli"
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+---
 
-### Analyzing the Bundle Size
+## 🔧 Firebase Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```bash
+npm install firebase
+npm install -g firebase-tools
 
-### Making a Progressive Web App
+firebase login
+firebase init
+firebase deploy
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+---
 
-### Advanced Configuration
+## 💳 Stripe Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```bash
+npm install stripe @stripe/stripe-js
+```
 
-### Deployment
+- Configure Stripe API keys in `.env.local`
+- Use `api/create-checkout-session.js` and `api/stripe-webhook.js` for integration
+- Set up webhook in Stripe dashboard for `/api/stripe-webhook`
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+---
 
-### `npm run build` fails to minify
+## ▲ Vercel Setup
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```bash
+npm install -g vercel
+
+vercel login
+vercel
+```
+
+- Ensure your `api/` folder is linked to a Vercel project
+- Deploy backend functions easily via `vercel` CLI
+
+---
+
+## 🚀 Run the Project
+
+```bash
+npm start
+```
+
+---
+
+## 💡 Developer Notes
+
+- State management is done using React's Context API
+- Cart and Wishlist data are stored in browser `localStorage` for persistence
+- Product images are uploaded to Firebase Storage
+- Coupons are managed in Firestore and applied at checkout
+- Stripe payment is handled via serverless APIs and confirmed using webhooks
+- All orders and user data are stored and queried in Firestore
+
+---
+
+## 📈 Future Enhancements
+
+- Email notifications on order confirmation
+- Product recommendations engine
+- Real-time chat support
+- Progressive Web App (PWA) features
+- Advanced analytics dashboard for admins
+
+---
+
+## 👩‍💻 Author
+
+**Saket Maganti**  
+Full Stack Developer – Java | React | Firebase | Stripe | Spring Boot  
+
+---
+
+## 📜 License
+
+This project is licensed under the MIT License. Feel free to use and modify with attribution.
